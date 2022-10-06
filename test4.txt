@@ -12,4 +12,13 @@
 2
 3
 4
-55
+
+
+ローカルtag削除
+git tag -d タグ名
+
+リモートtag削除
+git tag push origin :タグ名
+
+タグ参照
+git tag
