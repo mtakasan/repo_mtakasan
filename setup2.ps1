@@ -18,9 +18,7 @@ param(
 
 #-------------------------y ƒƒCƒ“ˆ— z-------------------------#
 
-# ‰æ–Ê‚Ì”wŒiFİ’è
-$Host.UI.RawUI.BackgroundColor = "White"
-$Host.UI.RawUI.ForegroundColor = "Black"
+# ‰æ–ÊƒNƒŠƒA
 Clear-Host
 
 Write-Host ""
@@ -182,8 +180,6 @@ else {
 }
 
 Write-Host ""
-
-pause
 
 if ($allSuccess) {
     exit 0

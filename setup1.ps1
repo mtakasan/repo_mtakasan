@@ -18,10 +18,10 @@ param(
 function checkFile([String]$cp_path, [String]$disp_fname) {
 
     if (Test-Path -LiteralPath $cp_path -PathType Leaf) {
-        Write-Host ($disp_fname + "　コピー成功")
+        Write-Host (" " + $disp_fname + "　コピー成功")
     }
     else {
-        Write-Host ($disp_fname + "　コピー失敗！")
+        Write-Host (" " + $disp_fname + "　コピー失敗！")
     }
 }
 
@@ -208,7 +208,7 @@ if ($process.ExitCode -ne 0) {
     exit 1
 }
 
-Write-Host "Firefoxのインストールが完了しました。"
+Write-Host " Firefoxのインストールが完了しました。"
 Write-Host ""
 
 #-------------------------【 setup2.ps1の準備 】-------------------------#
@@ -256,7 +256,7 @@ $process = Start-Process powershell.exe `
     -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$TMP_PATH\tmpGSS\setup2.ps1`" -TMP_PATH `"$TMP_PATH`"" `
     -Wait `
     -PassThru `
-    -WindowStyle Normal
+    -WindowStyle hidden
 
 #Write-Host "setup2.ps1 終了コード：$($process.ExitCode)"
 
@@ -266,13 +266,13 @@ Remove-Item -LiteralPath $tmpGSS -Recurse -Force
 
 #-------------------------【 コピーの成否確認 】-------------------------#
 
-#checkFile "C:\Program Files\Mozilla Firefox02\distribution\policies.json" "policies.json"
+checkFile "C:\Program Files\Mozilla Firefox02\distribution\policies.json" "policies.json"
 
-#checkFile "C:\Program Files\Mozilla Firefox02\defaults\pref\autoconfig.js" "autoconfig.js"
+checkFile "C:\Program Files\Mozilla Firefox02\defaults\pref\autoconfig.js" "autoconfig.js"
 
-#checkFile "C:\Program Files\Mozilla Firefox02\autoconfig.cfg" "autoconfig.cfg"
+checkFile "C:\Program Files\Mozilla Firefox02\autoconfig.cfg" "autoconfig.cfg"
 
-#checkFile "C:\Users\Public\Desktop\新工事原価管理システム.lnk" "新工事原価管理システム.lnk"
+checkFile "C:\Users\Public\Desktop\新工事原価管理システム.lnk" "新工事原価管理システム.lnk"
 
 #-------------------------【 終了 】-------------------------#
 
