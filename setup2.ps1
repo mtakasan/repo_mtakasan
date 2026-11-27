@@ -18,6 +18,11 @@ param(
 
 #-------------------------【 メイン処理 】-------------------------#
 
+# 画面の背景色設定
+$Host.UI.RawUI.BackgroundColor = "White"
+$Host.UI.RawUI.ForegroundColor = "Black"
+Clear-Host
+
 Write-Host ""
 Write-Host " ----------------------------------------"
 Write-Host " Firefox 初期設定"
@@ -147,7 +152,22 @@ foreach ($path in $checkFiles) {
     else {
         Write-Host "コピー失敗：$path"
         $allSuccess = $false
-    }
+    } 
+}
+
+Write-Host ""
+#pause
+
+#-------------------------【 既存フォルダ削除 】-------------------------#
+# 既存フォルダ削除
+$deltmp = Join-Path $TMP_PATH "\tmpGSSSetup"
+$deltmpSV = Join-Path $TMP_PATH "\2"
+
+if (Test-Path -LiteralPath $deltmp) {
+    Remove-Item -LiteralPath $deltmp -Recurse -Force
+}
+if (Test-Path -LiteralPath $deltmpSV) {
+    Remove-Item -LiteralPath $deltmpSV -Recurse -Force
 }
 
 #-------------------------【 終了 】-------------------------#

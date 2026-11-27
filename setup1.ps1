@@ -34,6 +34,9 @@ function pause() {
 
 #-------------------------【 メイン処理 】-------------------------#
 
+#setup1.ps1が配置されているフォルダを取得
+$SETUP_ROOT = $PSScriptRoot
+
 # ショートカットから渡されたsetupフォルダ
 if ([string]::IsNullOrWhiteSpace($SETUP_ROOT)) {
     Write-Host "setupフォルダの引数が指定されていません。"
@@ -75,11 +78,16 @@ if (-not $isAdmin) {
     Write-Host "セットアップファイルをローカルへコピーしています..."
 
     # ローカル作業フォルダ
-    $stageRoot = Join-Path $env:TEMP "GSSSetup"
+    $stageRoot = Join-Path $env:TEMP "tmpGSSSetup"
+    $stageRootSV = Join-Path $env:TEMP "2"
 
     # 既存フォルダ削除
     if (Test-Path -LiteralPath $stageRoot) {
         Remove-Item -LiteralPath $stageRoot -Recurse -Force
+    }
+    # 既存フォルダ削除
+    if (Test-Path -LiteralPath $stageRootSV) {
+        Remove-Item -LiteralPath $stageRootSV -Recurse -Force
     }
 
     # ローカル作業フォルダ作成
@@ -130,6 +138,7 @@ if (-not (Test-Path -LiteralPath $INSTALL_EXE -PathType Leaf)) {
 
 #-------------------------【 画面の挙動対策 】-------------------------#
 
+#対策１
 Add-Type @"
 using System;
 using System.Runtime.InteropServices;
@@ -153,6 +162,11 @@ if ([WindowControl]::IsIconic($hwnd)) {
     [WindowControl]::ShowWindow($hwnd, 9) | Out-Null
 }
 
+# 画面の背景色設定
+$Host.UI.RawUI.BackgroundColor = "White"
+$Host.UI.RawUI.ForegroundColor = "Black"
+Clear-Host
+
 Start-Sleep -Milliseconds 300
 
 #-------------------------【 インストール開始 】-------------------------#
@@ -169,7 +183,7 @@ Write-Host ""
 Write-Host " FireFox(Version 160.0.1)をインストールします"
 Write-Host ""
 
-Write-Host "インストーラー：$INSTALL_EXE"
+#Write-Host "インストーラー：$INSTALL_EXE"
 
 pause
 
@@ -229,8 +243,6 @@ Copy-Item -LiteralPath $source -Destination $tmpGSS -Force
 # settings\新工事原価管理システム.lnk
 $source = Join-Path $SETUP_ROOT "settings\新工事原価管理システム.lnk"
 Copy-Item -LiteralPath $source -Destination $tmpGSS -Force
-
-pause
 
 #-------------------------【 setup2.ps1実行 】-------------------------#
 
